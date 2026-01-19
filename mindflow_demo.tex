@@ -1,0 +1,1997 @@
+% ╔═══════════════════════════════════════════════════════════════════════════╗
+% ║                    MindFlow 核心功能演示文档                               ║
+% ║                         Complete Features Demo                             ║
+% ╠═══════════════════════════════════════════════════════════════════════════╣
+% ║  文件: mindflow_demo.tex                                                   ║
+% ║  说明: 系统性展示 mindflow.cls 的所有功能，作为使用参考手册                ║
+% ║  编译: xelatex mindflow_demo.tex                                           ║
+% ╚═══════════════════════════════════════════════════════════════════════════╝
+\documentclass[note, linux, secstyle-classic]{mindflow}
+% 💡 尝试切换 secstyle-[classic|modern|minimal|boxed|neon|terminal|gradient|elegant|blueprint|ribbon]
+
+\title{MindFlow 核心功能演示}
+\author{MindFlow 用户}
+\date{\today}
+
+% 水印演示 (可取消注释启用)
+% \mfWatermarkText[gray!10][4]{DEMO}
+
+\begin{document}
+
+\maketitle
+\mftableofcontents  % 目录页罗马数字，正文从1开始
+
+% ═══════════════════════════════════════════════════════════════════════════
+\section{类选项概览}
+% ═══════════════════════════════════════════════════════════════════════════
+
+\begin{notice}{文档模式}
+    MindFlow 提供三种文档模式：
+    \begin{itemize}
+        \item \texttt{note} (默认) - 基于 ctexart，适合日常笔记
+        \item \texttt{book} - 基于 ctexbook，适合系统教材
+        \item \texttt{report} - 基于 ctexrep，适合实验报告
+    \end{itemize}
+\end{notice}
+
+\subsection{Section 样式一览}
+
+MindFlow 提供 \textbf{10 种 Section 样式}，可通过类选项切换：
+
+\begin{table}[H]
+    \centering
+    \caption{Section 样式对照表}
+    \begin{tabular}{lll}
+        \toprule
+        \textbf{选项} & \textbf{类别} & \textbf{视觉效果} \\
+        \midrule
+        \texttt{secstyle-classic} & 基础 & 蓝色编号块 + 浅蓝背景 (默认) \\
+        \texttt{secstyle-modern} & 基础 & 大号编号 + 渐变底边线 \\
+        \texttt{secstyle-minimal} & 基础 & 左侧竖线 + 纯文本 \\
+        \texttt{secstyle-boxed} & 基础 & 边框卡片 + 阴影 \\
+        \midrule
+        \texttt{secstyle-neon} & 极客 & 🟢 霓虹发光 (赛博朋克) \\
+        \texttt{secstyle-terminal} & 极客 & 🖥️ 终端命令行风格 \\
+        \texttt{secstyle-gradient} & 极客 & 🌈 蓝紫渐变背景 \\
+        \texttt{secstyle-elegant} & 极客 & ✨ 金色装饰线 (学术典雅) \\
+        \texttt{secstyle-blueprint} & 极客 & 📐 蓝图网格背景 \\
+        \texttt{secstyle-ribbon} & 极客 & 🎗️ 折叠丝带效果 \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\subsection{其他选项}
+
+\begin{itemize}
+    \item \texttt{linux} / \texttt{mac} / \texttt{win} - 平台字体配置
+    \item \texttt{review} - 启用行号显示 (审稿模式)
+    \item \texttt{chapnum} / \texttt{nochapnum} - 章节编号 / 全局连续编号
+\end{itemize}
+
+% ═══════════════════════════════════════════════════════════════════════════
+\section{数学定理环境}
+% ═══════════════════════════════════════════════════════════════════════════
+
+\subsection{原版 amsthm 环境}
+
+\begin{theorem}[Lax-Milgram 定理]
+    设 $V$ 是 Hilbert 空间，$a(\cdot,\cdot)$ 是 $V$ 上的有界强制双线性形式，$F \in V'$。
+    则存在唯一的 $u \in V$ 使得 $a(u, v) = F(v), \; \forall v \in V$。
+\end{theorem}
+
+\begin{proof}
+    利用 Riesz 表示定理构造算子 $A: V \to V$，证明其为双射。
+\end{proof}
+
+\subsection{美化版定理环境 (tcolorbox)}
+
+\begin{theoremnew}{梯度下降收敛定理}
+    设 $f: \R^n \to \R$ 是 $L$-光滑凸函数，若使用步长 $\eta = \frac{1}{L}$ 的梯度下降：
+    \[
+        x_{k+1} = x_k - \eta \nabla f(x_k)
+    \]
+    则有 $f(x_k) - f(x^*) \leq \frac{L \norm{x_0 - x^*}^2}{2k}$。
+\end{theoremnew}
+
+\begin{proofnew}
+    由 $L$-光滑性，对任意 $x, y$：
+    \[
+        f(y) \leq f(x) + \nabla f(x)^\top (y - x) + \frac{L}{2} \norm{y - x}^2
+    \]
+    令 $y = x_{k+1}$，代入整理即得。
+\end{proofnew}
+
+\begin{defnnew}{Sobolev 空间 $W^{k,p}$}
+    设 $\Omega \subset \R^n$ 是开集，$k \in \N$，$1 \le p \le \infty$。定义
+    \[
+        W^{k,p}(\Omega) := \Set{ u \in L^p(\Omega) \st D^\alpha u \in L^p(\Omega), \; |\alpha| \le k }
+    \]
+    其中 $D^\alpha u$ 是弱导数。
+\end{defnnew}
+
+\begin{lemmanew}{Grönwall 引理}
+    若 $y(t) \le a(t) + \int_0^t b(s) y(s) \ds$，则
+    $y(t) \le a(t) + \int_0^t a(s) b(s) e^{\int_s^t b(r) \dd r} \ds$。
+\end{lemmanew}
+
+\begin{corollarynew}{能量估计}
+    对于抛物方程，解的 $L^2$ 范数随时间指数衰减。
+\end{corollarynew}
+
+\begin{examplenew}{热方程初边值问题}
+    考虑域 $\Omega$ 上的热方程：
+    \[
+        \pd{u}{t} - \lap u = 0, \quad u|_{\partial\Omega} = 0, \quad u(x,0) = u_0(x)
+    \]
+\end{examplenew}
+
+\begin{remarknew}
+    美化版环境与原版环境共享计数器，编号格式为 section-编号。
+\end{remarknew}
+
+% ═══════════════════════════════════════════════════════════════════════════
+\section{提示框环境}
+% ═══════════════════════════════════════════════════════════════════════════
+
+\begin{notice}{关于 physics 包}
+    MindFlow 加载了 physics 包，提供 \verb|\pdv|, \verb|\grad|, \verb|\norm| 等便捷命令。
+\end{notice}
+
+\begin{tip}{性能优化建议}
+    \begin{enumerate}
+        \item 使用 mini-batch 梯度下降平衡效率与稳定性
+        \item 添加学习率预热 (warmup) 避免初期震荡
+        \item 使用梯度裁剪防止梯度爆炸
+    \end{enumerate}
+\end{tip}
+
+\begin{warning}{数值稳定性}
+    计算 $\softmax$ 时应先减去最大值防止溢出：
+    \[
+        \softmax(z_i) = \frac{e^{z_i - \max(z)}}{\sum_j e^{z_j - \max(z)}}
+    \]
+\end{warning}
+
+\begin{conclusion}{本节要点}
+    \begin{itemize}
+        \item notice - 信息提示 (蓝色)
+        \item tip - 技巧建议 (绿色)
+        \item warning - 警告注意 (橙色)
+        \item conclusion - 总结归纳 (紫色)
+    \end{itemize}
+\end{conclusion}
+
+% ═══════════════════════════════════════════════════════════════════════════
+\section{导读与总结框}
+% ═══════════════════════════════════════════════════════════════════════════
+
+\begin{introbox}[本节导读]
+    导读框适合放在章节开头，概述本节内容和学习目标。支持自定义标题。
+\end{introbox}
+
+\begin{summarybox}[本节小结]
+    \begin{enumerate}
+        \item 总结框适合放在章节结尾
+        \item 用于归纳核心知识点
+        \item 帮助读者复习回顾
+    \end{enumerate}
+\end{summarybox}
+
+% ═══════════════════════════════════════════════════════════════════════════
+\section{数学宏库}
+% ═══════════════════════════════════════════════════════════════════════════
+
+\subsection{微分与积分算子}
+
+\begin{defbox}{微分与积分宏}
+    \begin{itemize}
+        \item 偏导数: $\pd{u}{t}$, $\pdd{u}{x}$ (二阶)
+        \item 微分元: $\dx$, $\dy$, $\dt$, $\dmu$ (测度)
+        \item 区域积分: $\intO f \dx$, $\intRn f \dx$
+        \item 边界积分: $\intpO g \ds$
+    \end{itemize}
+\end{defbox}
+
+热方程的经典形式：
+\[
+    \pd{u}{t} = \alpha \pdd{u}{x}, \quad x \in \Omega, \quad t > 0
+\]
+
+\subsection{函数空间与范数}
+
+\begin{itemize}
+    \item Sobolev 空间: $\Wkp{1}{p}(\Omega)$, $\Hk[1](\Omega)$
+    \item $L^p$ 空间: $\Lp(\Omega)$, $\Lp[2](\Omega)$
+    \item 范数: $\normL{f}$, $\normL[2]{f}$
+\end{itemize}
+
+\subsection{常用集合与收敛}
+
+\begin{itemize}
+    \item 数集: $\R$ (实数), $\N$ (自然数), $\Z$ (整数), $\Q$ (有理数), $\C$ (复数)
+    \item 收敛: $u_n \weakto u$ (弱收敛), $X \embeds Y$ (嵌入)
+    \item 极限: $\limn a_n$, $\limx[0^+] f(x)$
+\end{itemize}
+
+\subsection{深度学习符号}
+
+\begin{defbox}{深度学习符号表}
+    \begin{itemize}
+        \item 基础: 损失 $\loss$, 数据集 $\data$, 模型 $\model$, 参数 $\param$
+        \item 概率: 期望 $\expect[\cdot]$, 概率 $\prob(\cdot)$, KL散度 $\KLdiv(P\|Q)$
+        \item 激活: $\relu(x)$, $\sigmoid(x)$, $\tanhfunc(x)$, $\softmax(z)$
+        \item 网络: $\Conv(x)$, $\LSTM(x)$, $\BatchNorm(x)$, $\Dropout(x)$
+        \item 向量: $\vect{x}$, $\weight$, $\bias$
+    \end{itemize}
+\end{defbox}
+
+% ═══════════════════════════════════════════════════════════════════════════
+\section{代码环境}
+% ═══════════════════════════════════════════════════════════════════════════
+
+\begin{codeblock}[python]{PyTorch 神经网络示例}
+import torch
+import torch.nn as nn
+
+class SimpleNet(nn.Module):
+    def __init__(self, input_dim, hidden_dim, output_dim):
+        super().__init__()
+        self.fc1 = nn.Linear(input_dim, hidden_dim)
+        self.relu = nn.ReLU()
+        self.fc2 = nn.Linear(hidden_dim, output_dim)
+    
+    def forward(self, x):
+        x = self.relu(self.fc1(x))
+        return self.fc2(x)
+
+# 训练循环
+model = SimpleNet(784, 256, 10)
+optimizer = torch.optim.Adam(model.parameters(), lr=1e-3)
+\end{codeblock}
+
+\begin{codeblock}[tex]{LaTeX 定理环境使用}
+\begin{theoremnew}{定理名称}
+    定理内容...
+\end{theoremnew}
+
+\begin{proofnew}
+    证明过程...
+\end{proofnew}
+\end{codeblock}
+
+% ═══════════════════════════════════════════════════════════════════════════
+\section{图文混排环境}
+% ═══════════════════════════════════════════════════════════════════════════
+
+\subsection{textfigure 环境}
+
+图文并排环境，支持左右布局：
+
+\begin{textfigure}[right]{figure/py2.png}{训练曲线示例}
+    神经网络的训练过程可以通过损失函数的下降曲线来监控。理想情况下，训练损失和验证损失应该同时下降并趋于稳定。
+    
+    如果验证损失在某个点开始上升而训练损失继续下降，则说明模型出现了过拟合。此时可以考虑：增加训练数据、使用正则化 (L2, Dropout)、提前停止训练。
+\end{textfigure}
+
+\subsection{parallelfigures 环境}
+
+并排双图环境：
+
+\begin{parallelfigures}{训练过程对比}
+    \addfig[0.45]{figure/py2.png}{训练损失}
+    \addfig[0.45]{figure/py3.png}{验证损失}
+\end{parallelfigures}
+
+\subsection{figurerow 环境}
+
+多图行环境，支持自定义列数：
+
+\begin{figurerow}{不同学习率的训练效果}[3]
+    \figitem{figure/py2.png}{$\eta=0.001$}
+    \figitem{figure/py3.png}{$\eta=0.01$}
+    \figitem{figure/py2.png}{$\eta=0.1$}
+\end{figurerow}
+
+\subsection{figuregrid 环境}
+
+网格布局环境：
+
+\begin{figuregrid}{模型架构对比}
+    \gridrow{%
+        \gridfig[0.45]{figure/py2.png}{ResNet}%
+        \gridfig[0.45]{figure/py3.png}{VGG}%
+    }
+\end{figuregrid}
+
+% ═══════════════════════════════════════════════════════════════════════════
+\section{科学绘图 (PGFPlots)}
+% ═══════════════════════════════════════════════════════════════════════════
+
+MindFlow 提供 \textbf{6 种预设绘图样式}，满足不同场景需求：
+
+\begin{table}[H]
+    \centering
+    \caption{PGFPlots 样式一览}
+    \begin{tabular}{lll}
+        \toprule
+        \textbf{样式} & \textbf{用途} & \textbf{特点} \\
+        \midrule
+        \texttt{mfplot} & 通用折线图 & 网格 + 彩色标记 (默认) \\
+        \texttt{mfplot-dark} & 暗色主题 & 黑底 + 霓虹配色 \\
+        \texttt{mfplot-minimal} & 极简风格 & 无网格 + 箭头坐标轴 \\
+        \texttt{mfplot-bar} & 柱状图 & 分类数据可视化 \\
+        \texttt{mfplot-scatter} & 散点图 & 数据分布展示 \\
+        \texttt{mfplot-area} & 面积图 & 堆叠区域展示 \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\subsection{默认样式 (mfplot)}
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+        \begin{axis}[
+            mfplot,
+            xlabel={Epoch},
+            ylabel={Loss},
+            title={训练损失曲线},
+            legend entries={Train, Validation}
+        ]
+            \addplot coordinates {
+                (1, 2.5) (2, 1.8) (3, 1.4) (4, 1.1) (5, 0.9)
+                (6, 0.8) (7, 0.75) (8, 0.72) (9, 0.70) (10, 0.69)
+            };
+            \addplot coordinates {
+                (1, 2.8) (2, 2.1) (3, 1.7) (4, 1.5) (5, 1.4)
+                (6, 1.35) (7, 1.32) (8, 1.30) (9, 1.29) (10, 1.28)
+            };
+        \end{axis}
+    \end{tikzpicture}
+    \caption{mfplot: 标准折线图，适合训练曲线展示}
+\end{figure}
+
+\subsection{暗色主题 (mfplot-dark)}
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+        \begin{axis}[
+            mfplot-dark,
+            xlabel={Time (s)},
+            ylabel={Amplitude},
+            title={Signal Analysis}
+        ]
+            \addplot[domain=0:10, samples=100] {sin(deg(x))};
+            \addplot[domain=0:10, samples=100] {cos(deg(x))};
+            \legend{$\sin(x)$, $\cos(x)$}
+        \end{axis}
+    \end{tikzpicture}
+    \caption{mfplot-dark: 暗色主题，适合演示文稿}
+\end{figure}
+
+\subsection{极简样式 (mfplot-minimal)}
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+        \begin{axis}[
+            mfplot-minimal,
+            xlabel={$x$},
+            ylabel={$f(x)$},
+            domain=-2:2,
+            samples=50
+        ]
+            \addplot {x^2};
+            \addplot {x^3};
+            \addplot {exp(x)};
+            \legend{$x^2$, $x^3$, $e^x$}
+        \end{axis}
+    \end{tikzpicture}
+    \caption{mfplot-minimal: 极简风格，适合教材插图}
+\end{figure}
+
+\subsection{柱状图样式 (mfplot-bar)}
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+        \begin{axis}[
+            mfplot-bar,
+            xlabel={Model},
+            ylabel={Accuracy (\%)},
+            ymin=0, ymax=100
+        ]
+            \addplot coordinates {(A, 85) (B, 78) (C, 92) (D, 88) (E, 95)};
+            \addplot coordinates {(A, 82) (B, 75) (C, 89) (D, 85) (E, 91)};
+            \legend{Train, Test}
+        \end{axis}
+    \end{tikzpicture}
+    \caption{mfplot-bar: 柱状图，适合模型对比}
+\end{figure}
+
+\subsection{散点图样式 (mfplot-scatter)}
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+        \begin{axis}[
+            mfplot-scatter,
+            xlabel={Feature 1},
+            ylabel={Feature 2},
+            title={数据分布可视化}
+        ]
+            \addplot+[mark=*, blue!70] coordinates {
+                (1,2) (1.5,2.5) (2,3) (2.2,2.8) (1.8,2.2) (2.5,3.5) (3,4)
+            };
+            \addplot+[mark=triangle*, red!70] coordinates {
+                (4,1) (4.5,1.5) (5,2) (4.8,1.8) (5.2,2.2) (5.5,2.5)
+            };
+            \legend{Class A, Class B}
+        \end{axis}
+    \end{tikzpicture}
+    \caption{mfplot-scatter: 散点图，适合分类数据展示}
+\end{figure}
+
+\begin{tip}{PGFPlots 使用建议}
+    \begin{itemize}
+        \item 所有样式可通过 \verb|[style, key=value]| 进一步自定义
+        \item 使用 \verb|\addplot+[...]| 可覆盖默认样式
+        \item 复杂图形建议使用 \verb|\pgfplotstableread| 读取外部数据
+    \end{itemize}
+\end{tip}
+
+% ═══════════════════════════════════════════════════════════════════════════
+\section{TikZ 绘图库}
+% ═══════════════════════════════════════════════════════════════════════════
+
+MindFlow 提供了丰富的 TikZ 预设样式，用于绘制神经网络、图论、流程图、拓扑空间等。
+
+\begin{table}[H]
+    \centering
+    \caption{TikZ 样式分类}
+    \begin{tabular}{lll}
+        \toprule
+        \textbf{类别} & \textbf{样式} & \textbf{用途} \\
+        \midrule
+        通用节点 & \texttt{mfnode}, \texttt{mfbox}, \texttt{mfdiamond} & 基础图形节点 \\
+        神经网络 & \texttt{neuron}, \texttt{input neuron}, \texttt{nnedge} & 网络结构图 \\
+        图论 & \texttt{graphedge}, \texttt{dirgraphedge}, \texttt{edgelabel} & 图与路径 \\
+        流程图 & \texttt{process}, \texttt{decision}, \texttt{terminal} & 算法流程 \\
+        状态机 & \texttt{state}, \texttt{transition}, \texttt{loop edge} & 有限自动机 \\
+        拓扑 & \texttt{open set}, \texttt{closed set}, \texttt{point} & 拓扑空间 \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\subsection{神经网络结构图}
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[x=1.8cm, y=1.2cm]
+        % 输入层
+        \foreach \i in {1,2,3} {
+            \node[input neuron] (I\i) at (0, -\i) {$x_\i$};
+        }
+        % 隐藏层
+        \foreach \j in {1,2,3,4} {
+            \node[hidden neuron] (H\j) at (2, -\j+0.5) {};
+        }
+        % 输出层
+        \foreach \k in {1,2} {
+            \node[output neuron] (O\k) at (4, -\k-0.5) {$y_\k$};
+        }
+        % 连接
+        \foreach \i in {1,2,3} {
+            \foreach \j in {1,2,3,4} {
+                \draw[nnedge] (I\i) -- (H\j);
+            }
+        }
+        \foreach \j in {1,2,3,4} {
+            \foreach \k in {1,2} {
+                \draw[nnedge] (H\j) -- (O\k);
+            }
+        }
+        % 标签
+        \node[above=5pt] at (0, -0.5) {\small 输入层};
+        \node[above=5pt] at (2, 0) {\small 隐藏层};
+        \node[above=5pt] at (4, -1) {\small 输出层};
+    \end{tikzpicture}
+    \caption{全连接神经网络结构 (使用 neuron 样式)}
+\end{figure}
+
+\subsection{图论示例}
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+        % 节点
+        \node[mfnode] (A) at (0, 0) {A};
+        \node[mfnode] (B) at (2, 1) {B};
+        \node[mfnode] (C) at (2, -1) {C};
+        \node[mfnode] (D) at (4, 0) {D};
+        \node[mfnode, highlight node] (E) at (6, 0) {E};
+        % 边
+        \draw[graphedge] (A) -- node[edgelabel] {3} (B);
+        \draw[graphedge] (A) -- node[edgelabel] {5} (C);
+        \draw[graphedge] (B) -- node[edgelabel] {2} (D);
+        \draw[graphedge] (C) -- node[edgelabel] {4} (D);
+        \draw[graphedge, highlight edge] (D) -- node[edgelabel] {1} (E);
+    \end{tikzpicture}
+    \caption{加权图 (使用 mfnode + graphedge + edgelabel)}
+\end{figure}
+
+\subsection{流程图示例}
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[node distance=12mm]
+        \node[terminal] (start) {开始};
+        \node[io, below=of start] (input) {输入 $n$};
+        \node[process, below=of input] (init) {$sum \leftarrow 0$};
+        \node[decision, below=of init] (cond) {$n > 0$?};
+        \node[process, below=of cond] (calc) {$sum \leftarrow sum + n$};
+        \node[process, below=of calc] (dec) {$n \leftarrow n - 1$};
+        \node[io, right=25mm of cond] (output) {输出 $sum$};
+        \node[terminal, below=of output] (end) {结束};
+        
+        % 连接
+        \draw[flowedge] (start) -- (input);
+        \draw[flowedge] (input) -- (init);
+        \draw[flowedge] (init) -- (cond);
+        \draw[flowedge] (cond) -- node[left] {是} (calc);
+        \draw[flowedge] (calc) -- (dec);
+        \draw[flowedge] (dec.west) -- ++(-1,0) |- (cond.west);
+        \draw[flowedge] (cond) -- node[above] {否} (output);
+        \draw[flowedge] (output) -- (end);
+    \end{tikzpicture}
+    \caption{求和算法流程图 (使用 process/decision/terminal/io)}
+\end{figure}
+
+\subsection{有限状态机}
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[node distance=25mm]
+        \node[initial state] (q0) {$q_0$};
+        \node[state, right=of q0] (q1) {$q_1$};
+        \node[final state, right=of q1] (q2) {$q_2$};
+        
+        \draw[transition] (q0) edge[bend left] node[above] {$a$} (q1);
+        \draw[transition] (q1) edge[bend left] node[below] {$b$} (q0);
+        \draw[transition] (q1) -- node[above] {$a$} (q2);
+        \draw[transition] (q0) edge[loop above] node {$b$} (q0);
+        \draw[transition] (q2) edge[loop above] node {$a,b$} (q2);
+    \end{tikzpicture}
+    \caption{有限自动机 (使用 state/initial state/final state)}
+\end{figure}
+
+\subsection{拓扑空间示意}
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+        % 拓扑空间 X
+        \draw[topology space] (0,0) ellipse (2.5cm and 1.8cm);
+        \node at (0, 2.1) {$X$};
+        
+        % 开集
+        \draw[open set] (-0.8, 0) ellipse (1cm and 0.8cm);
+        \node at (-0.8, 1) {\small $U$ (开集)};
+        
+        % 点
+        \node[point, label=below:$x$] at (-0.8, 0) {};
+        \node[point, label=below:$y$] at (1.2, -0.3) {};
+        
+        % 映射箭头
+        \draw[continuous map] (3.5, 0) -- node[above] {$f$} (5.5, 0);
+        
+        % 拓扑空间 Y
+        \draw[topology space] (7.5, 0) ellipse (2cm and 1.5cm);
+        \node at (7.5, 1.8) {$Y$};
+        
+        % 像
+        \draw[closed set] (7.5, 0) circle (0.8cm);
+        \node at (7.5, 1.1) {\small $f(U)$};
+        \node[point, label=below:$f(x)$] at (7.5, 0) {};
+    \end{tikzpicture}
+    \caption{连续映射示意图 (使用 topology space/open set/closed set)}
+\end{figure}
+
+\begin{notice}{TikZ 样式使用说明}
+    所有样式可直接使用或组合，例如：
+    \begin{itemize}
+        \item \verb|\node[mfnode] (A) at (0,0) {A};| - 创建圆形节点
+        \item \verb|\draw[graphedge] (A) -- (B);| - 绘制无向边
+        \item \verb|\node[state, highlight node] ...| - 组合样式
+    \end{itemize}
+\end{notice}
+
+% ═══════════════════════════════════════════════════════════════════════════
+\section{高级拓扑图形}
+% ═══════════════════════════════════════════════════════════════════════════
+
+MindFlow 提供了专业的拓扑学图形绘制命令，支持常见拓扑曲面的可视化。
+
+\begin{table}[H]
+    \centering
+    \caption{拓扑绘图命令}
+    \begin{tabular}{lll}
+        \toprule
+        \textbf{命令} & \textbf{曲面} & \textbf{参数} \\
+        \midrule
+        \verb|\sphere| & 球面 $S^2$ & 位置 + 半径 \\
+        \verb|\torus| & 环面 $T^2$ & 位置 + 大/小半径 \\
+        \verb|\cylinder| & 圆柱面 & 位置 + 半径 + 高度 \\
+        \verb|\kleinbottle| & Klein 瓶 & 位置 + 缩放 \\
+        \verb|\bouquet| & 八字形 & 位置 + 缩放 \\
+        \verb|\fiberbundle| & 纤维丛 & 位置 + 底空间半径 + 纤维高度 \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\subsection{基本拓扑曲面}
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+        % 球面
+        \sphere{0}{0}{1.2}
+        \node[below] at (0,-1.8) {球面 $S^2$};
+        
+        % 环面
+        \torus{5}{0}{1.2}{0.4}
+        \node[below] at (5,-1.2) {环面 $T^2$};
+        
+        % 圆柱
+        \cylinder{10}{-1}{0.8}{2}
+        \node[below] at (10,-1.5) {圆柱面};
+    \end{tikzpicture}
+    \caption{常见拓扑曲面：球面、环面、圆柱面}
+\end{figure}
+
+\subsection{Klein 瓶与八字形}
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+        % Klein 瓶
+        \kleinbottle{0}{0}{1.2}
+        \node[below] at (0,-2) {Klein 瓶 (不可定向)};
+        
+        % 八字形
+        \bouquet{6}{0}{1.5}
+        \node[below] at (6,-2) {八字形 $S^1 \vee S^1$};
+        \node[below] at (6,-2.5) {\small $\pi_1 = \mathbb{Z} * \mathbb{Z}$};
+    \end{tikzpicture}
+    \caption{非平凡拓扑空间示例}
+\end{figure}
+
+\subsection{纤维丛示意}
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+        \fiberbundle{0}{0}{2}{2.5}
+        \node at (5, 1.2) {纤维丛 $F \to E \xrightarrow{\pi} B$};
+        \node[align=left] at (5, 0) {\small $B$: 底空间\\ \small $E$: 总空间\\ \small $F$: 纤维};
+    \end{tikzpicture}
+    \caption{纤维丛的几何结构}
+\end{figure}
+
+\subsection{同伦等价}
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+        % 实心圆盘
+        \draw[thick, mf@thm@blue, fill=mf@thm@blue!20] (0,0) circle (1.2);
+        \node[point] at (0,0) {};
+        \node[below] at (0,-1.5) {$D^2$ (圆盘)};
+        
+        % 同伦等价箭头
+        \draw[homotopy arrow] (2,0) -- (4,0) node[midway, above] {$\simeq$};
+        
+        % 点
+        \node[point] at (5,0) {};
+        \node[below] at (5,-1.5) {$\{*\}$ (点)};
+        
+        % 说明文字
+        \node at (2.5, -2.5) {\small 圆盘可缩为一点 (可缩空间)};
+    \end{tikzpicture}
+    \caption{同伦等价示意}
+\end{figure}
+
+\subsection{交换图 (范畴论)}
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[cd node/.append style={font=\large}]
+        \node[cd node] (A) at (0,2) {$A$};
+        \node[cd node] (B) at (3,2) {$B$};
+        \node[cd node] (C) at (0,0) {$C$};
+        \node[cd node] (D) at (3,0) {$D$};
+        
+        \draw[cd arrow] (A) -- node[above] {$f$} (B);
+        \draw[cd arrow] (A) -- node[left] {$g$} (C);
+        \draw[cd arrow] (B) -- node[right] {$h$} (D);
+        \draw[cd arrow] (C) -- node[below] {$k$} (D);
+        \draw[cd exists] (A) -- node[above right] {$\exists !$} (D);
+        
+        \node at (1.5, 1) {\small 交换};
+    \end{tikzpicture}
+    \caption{交换图：$h \circ f = k \circ g$}
+\end{figure}
+
+\subsection{向量场}
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+        % 网格和坐标系
+        \drawaxes{-0.5}{5}{4}
+        
+        % 向量场
+        \vectorfield{0.5}{0.5}{4}{3}{1}
+        
+        % 奇点标记
+        \node[source, label=below:\small 源] at (1.5,2) {};
+        \node[sink, label=below:\small 汇] at (3.5,1.5) {};
+        \node[saddle point, label=below:\small 鞍点] at (2.5,3) {};
+    \end{tikzpicture}
+    \caption{向量场与奇点分类}
+\end{figure}
+
+\subsection{曲线积分区域}
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+        \drawaxes{-0.5}{4.5}{3.5}
+        
+        % 积分区域
+        \fill[integral region] 
+            plot[domain=0.5:3.5, samples=50] (\x, {0.5*sin(deg(\x))+1.5})
+            -- (3.5,0) -- (0.5,0) -- cycle;
+        
+        % 曲线
+        \draw[function curve, very thick] 
+            plot[domain=0.5:3.5, samples=50] (\x, {0.5*sin(deg(\x))+1.5});
+        
+        % 边界标记
+        \draw[thick] (0.5,0) -- (0.5, 1.74);
+        \draw[thick] (3.5,0) -- (3.5, 1.32);
+        
+        \node at (2, 0.8) {$\int_a^b f(x)\,\dd x$};
+        \node[below] at (0.5,0) {\small $a$};
+        \node[below] at (3.5,0) {\small $b$};
+    \end{tikzpicture}
+    \caption{定积分的几何意义}
+\end{figure}
+
+\begin{tip}{高级拓扑绘图建议}
+    \begin{enumerate}
+        \item 使用 \verb|\sphere|, \verb|\torus| 等命令快速绘制标准曲面
+        \item 交换图使用 \verb|cd arrow|, \verb|cd mono|, \verb|cd epi| 等样式
+        \item 向量场使用 \verb|\vectorfield| 命令自动生成
+        \item 所有命令支持可选参数自定义 TikZ 样式
+    \end{enumerate}
+\end{tip}
+
+% ═══════════════════════════════════════════════════════════════════════════
+\section{古卷轴与公式注释}
+% ═══════════════════════════════════════════════════════════════════════════
+
+\subsection{古卷轴 (Papyrus) 效果}
+
+使用 \verb|\papyrus| 命令创建类似古老羊皮纸卷轴效果的装饰文本框：
+
+\begin{center}
+\papyrus[1.2]{%
+    \begin{minipage}{0.6\textwidth}
+        \centering
+        \textbf{欧拉恒等式}\\[0.5em]
+        $e^{i\pi} + 1 = 0$\\[0.3em]
+        \small 数学中最美丽的公式
+    \end{minipage}
+}
+\end{center}
+
+\begin{center}
+\papyrus{%
+    \begin{minipage}{0.7\textwidth}
+        \textbf{麦克斯韦方程组}\\[0.3em]
+        $\nabla \cdot \vec{E} = \frac{\rho}{\varepsilon_0}$, \quad
+        $\nabla \cdot \vec{B} = 0$\\[0.2em]
+        $\nabla \times \vec{E} = -\frac{\partial \vec{B}}{\partial t}$, \quad
+        $\nabla \times \vec{B} = \mu_0 \vec{J} + \mu_0 \varepsilon_0 \frac{\partial \vec{E}}{\partial t}$
+    \end{minipage}
+}
+\end{center}
+
+\subsection{公式注释系统}
+
+使用 \verb|formulaexplain| 环境为公式添加详细的分项解释：
+
+\begin{formulaexplain}[2cm]
+    % 公式组件
+    \node[eq part=orange] (kinetic) {$-\frac{\hbar^2}{2m}\nabla^2$};
+    \node[eq operator, right=0.3cm of kinetic] (plus1) {$+$};
+    \node[eq part=red, right=0.3cm of plus1] (potential) {$V(\vec{r})$};
+    \node[eq operator, right=0.5cm of potential] (psi) {$\psi = E\psi$};
+    
+    % 说明标签
+    \node[eq label, above=of kinetic] (kinetic-label) {动能算符\\非相对论形式};
+    \node[eq label, below=of potential] (potential-label) {势能项\\外场或相互作用};
+    
+    % 箭头
+    \draw[eq arrow] (kinetic-label) -- (kinetic);
+    \draw[eq arrow] (potential-label) -- (potential);
+\end{formulaexplain}
+
+\subsection{公式流程图 (Kohn-Sham 风格)}
+
+使用 \verb|formulaflow| 环境创建自洽计算流程图：
+
+\begin{formulaflow}[0.8cm]
+    \node[ks input] (init) {初始密度猜测 $\rho_0(\vec{r})$};
+    \node[ks box, below=of init] (ks) {构造 KS 方程 $\hat{H}_{KS}\phi_i = \varepsilon_i\phi_i$};
+    \node[ks box, below=of ks] (solve) {求解单电子方程};
+    \node[ks box, below=of solve] (density) {计算新密度 $\rho(\vec{r}) = \sum_i |\phi_i|^2$};
+    \node[ks decision, below=of density] (conv) {收敛?};
+    \node[ks output, below=1.5cm of conv] (output) {输出: 总能量 $E[\rho]$、电子结构};
+    
+    % 连接
+    \draw[ks arrow] (init) -- (ks);
+    \draw[ks arrow] (ks) -- (solve);
+    \draw[ks arrow] (solve) -- (density);
+    \draw[ks arrow] (density) -- (conv);
+    \draw[ks arrow] (conv) -- node[right] {是} (output);
+    \draw[ks arrow] (conv.west) -- ++(-2,0) |- node[pos=0.25, above] {否} (ks.west);
+\end{formulaflow}
+
+\begin{notice}{公式注释命令参考}
+    \begin{itemize}
+        \item \verb|\papyrus[缩放]{内容}| - 卷轴装饰框
+        \item \verb|eq part=颜色| - 公式组件高亮框
+        \item \verb|eq label| - 说明文字样式
+        \item \verb|ks box|, \verb|ks input|, \verb|ks output| - 流程图框
+    \end{itemize}
+\end{notice}
+
+% ═══════════════════════════════════════════════════════════════════════════
+\section{计算机科学可视化}
+% ═══════════════════════════════════════════════════════════════════════════
+
+MindFlow 提供了专业的计算机科学图形样式，用于绘制类继承图、数据结构、算法流程等。
+
+\begin{table}[H]
+    \centering
+    \caption{CS 可视化样式分类}
+    \begin{tabular}{lll}
+        \toprule
+        \textbf{类别} & \textbf{主要样式} & \textbf{用途} \\
+        \midrule
+        层次结构 & \texttt{hasse node}, \texttt{inherit arrow} & 类继承/Hasse图 \\
+        UML & \texttt{uml class}, \texttt{aggregation} & 类图设计 \\
+        蝴蝶网络 & \texttt{bf node}, \texttt{bf op} & FFT/并行算法 \\
+        数据结构 & \texttt{array cell}, \texttt{tree node} & 数组/树/链表 \\
+        内存图 & \texttt{memory block}, \texttt{register} & 内存布局 \\
+        状态机 & \texttt{fsm state}, \texttt{fsm trans} & FSM/DFA \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\subsection{类继承层次图}
+
+\begin{hassediagram}[1.5cm]
+    % 根类
+    \node[abstract node] (object) {Object};
+    
+    % 第二层
+    \node[abstract node, below left=of object, xshift=-1cm] (animal) {Animal};
+    \node[interface node, below right=of object, xshift=1cm] (serializable) {$\ll$interface$\gg$\\Serializable};
+    
+    % 第三层
+    \node[concrete node, below left=of animal] (dog) {Dog};
+    \node[concrete node, below right=of animal] (cat) {Cat};
+    
+    % 连接
+    \draw[inherit arrow] (animal) -- (object);
+    \draw[implement arrow] (serializable) -- (object);
+    \draw[inherit arrow] (dog) -- (animal);
+    \draw[inherit arrow] (cat) -- (animal);
+    \draw[implement arrow] (dog.east) to[bend left=20] (serializable.south);
+\end{hassediagram}
+
+\subsection{数据结构可视化}
+
+\subsubsection{数组}
+
+\begin{datastructure}
+    \drawarray{0}{0}{5,2,8,1,9,3,7}
+    \node[above] at (3cm, 0.6cm) {\textbf{int arr[7]}};
+\end{datastructure}
+
+\subsubsection{链表}
+
+\begin{datastructure}
+    \node[list node] (n1) at (0,0) {10 \nodepart{two} $\rightarrow$};
+    \node[list node] (n2) at (2.5cm,0) {20 \nodepart{two} $\rightarrow$};
+    \node[list node] (n3) at (5cm,0) {30 \nodepart{two} $\rightarrow$};
+    \node[null node] (null) at (7cm,0) {NULL};
+    
+    \draw[list pointer] (n1.east) -- (n2.west);
+    \draw[list pointer] (n2.east) -- (n3.west);
+    \draw[list pointer] (n3.east) -- (null.west);
+    
+    \node[above] at (3cm, 0.7cm) {\textbf{单向链表}};
+\end{datastructure}
+
+\subsubsection{二叉树}
+
+\begin{datastructure}[1.2cm]
+    \node[tree node] (root) at (0,0) {8};
+    \node[tree node] (l1) at (-1.5cm,-1.2cm) {4};
+    \node[tree node] (r1) at (1.5cm,-1.2cm) {12};
+    \node[tree node] (ll) at (-2.2cm,-2.4cm) {2};
+    \node[tree node] (lr) at (-0.8cm,-2.4cm) {6};
+    \node[tree node] (rl) at (0.8cm,-2.4cm) {10};
+    \node[tree node] (rr) at (2.2cm,-2.4cm) {14};
+    
+    \draw[tree edge] (root) -- (l1);
+    \draw[tree edge] (root) -- (r1);
+    \draw[tree edge] (l1) -- (ll);
+    \draw[tree edge] (l1) -- (lr);
+    \draw[tree edge] (r1) -- (rl);
+    \draw[tree edge] (r1) -- (rr);
+    
+    \node[above] at (0, 0.6cm) {\textbf{二叉搜索树}};
+\end{datastructure}
+
+\subsubsection{栈}
+
+\begin{datastructure}
+    \drawstack{0}{0}{return addr, local var, param 2, param 1}
+    \node[above right] at (1.2cm, 2.5cm) {\textbf{调用栈}};
+\end{datastructure}
+
+\subsection{蝴蝶网络 (FFT)}
+
+\begin{butterflynet}[0.8cm]
+    % Stage 0
+    \foreach \i/\v in {0/$a_0$, 1/$a_1$, 2/$a_2$, 3/$a_3$} {
+        \node[bf node] (s0-\i) at (0, -\i*0.9cm) {\v};
+    }
+    
+    % Stage 1
+    \foreach \i in {0,1,2,3} {
+        \node[bf node] (s1-\i) at (3cm, -\i*0.9cm) {};
+    }
+    
+    % Stage 2
+    \foreach \i/\v in {0/$A_0$, 1/$A_1$, 2/$A_2$, 3/$A_3$} {
+        \node[bf node] (s2-\i) at (6cm, -\i*0.9cm) {\v};
+    }
+    
+    % Stage 0-1 蝴蝶操作
+    \node[bf op] (op01) at (1.5cm, -0.45cm) {$+$};
+    \node[bf op] (op23) at (1.5cm, -2.25cm) {$+$};
+    
+    \draw[bf edge] (s0-0) -- (op01) -- (s1-0);
+    \draw[bf edge] (s0-1) -- (op01) -- (s1-1);
+    \draw[bf edge] (s0-2) -- (op23) -- (s1-2);
+    \draw[bf edge] (s0-3) -- (op23) -- (s1-3);
+    
+    % Stage 1-2 蝴蝶操作 (交叉)
+    \node[bf op] (op02) at (4.5cm, -0.9cm) {$+$};
+    \node[bf op] (op13) at (4.5cm, -1.8cm) {$+$};
+    
+    \draw[bf edge] (s1-0) -- (op02) -- (s2-0);
+    \draw[bf cross] (s1-2) -- (op02) -- (s2-2);
+    \draw[bf edge] (s1-1) -- (op13) -- (s2-1);
+    \draw[bf cross] (s1-3) -- (op13) -- (s2-3);
+    
+    % 阶段标签
+    \node[below] at (0, -3.2cm) {\small Stage 0};
+    \node[below] at (3cm, -3.2cm) {\small Stage 1};
+    \node[below] at (6cm, -3.2cm) {\small Stage 2};
+\end{butterflynet}
+
+\subsection{有限状态机}
+
+\begin{datastructure}[2.5cm]
+    \node[fsm initial] (q0) at (0,0) {$q_0$};
+    \node[fsm state] (q1) at (3cm,0) {$q_1$};
+    \node[fsm state] (q2) at (6cm,0) {$q_2$};
+    \node[fsm final] (q3) at (9cm,0) {$q_3$};
+    
+    \draw[fsm trans] (q0) -- node[fsm label, above] {0} (q1);
+    \draw[fsm trans] (q1) -- node[fsm label, above] {1} (q2);
+    \draw[fsm trans] (q2) -- node[fsm label, above] {0} (q3);
+    \draw[fsm trans] (q1) edge[loop above] node[fsm label] {0} (q1);
+    \draw[fsm trans] (q2) edge[bend left=40] node[fsm label, below] {1} (q0);
+\end{datastructure}
+
+\begin{tip}{CS 可视化使用建议}
+    \begin{enumerate}
+        \item 使用 \verb|hassediagram| 环境绘制类继承图
+        \item 使用 \verb|datastructure| 环境绘制数据结构
+        \item \verb|\drawarray| 和 \verb|\drawstack| 是便捷的快捷命令
+        \item 蝴蝶网络使用 \verb|bf node| + \verb|bf op| 组合
+    \end{enumerate}
+\end{tip}
+
+% ═══════════════════════════════════════════════════════════════════════════
+\section{化学与物理可视化}
+% ═══════════════════════════════════════════════════════════════════════════
+
+MindFlow 提供了专业的化学和物理图形样式，用于绘制元素周期表、分子结构、能级图等。
+
+\begin{table}[H]
+    \centering
+    \caption{化学/物理可视化样式分类}
+    \begin{tabular}{lll}
+        \toprule
+        \textbf{类别} & \textbf{主要样式} & \textbf{用途} \\
+        \midrule
+        元素周期表 & \texttt{alkali metal}, \texttt{halogen} & 元素分类 \\
+        粒子物理 & \texttt{quark}, \texttt{lepton}, \texttt{gauge boson} & 标准模型 \\
+        分子结构 & \texttt{carbon}, \texttt{single bond} & 有机化学 \\
+        能级图 & \texttt{energy level}, \texttt{transition arrow} & 量子力学 \\
+        化学反应 & \texttt{reactant}, \texttt{reaction arrow} & 反应方程 \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\subsection{元素周期表}
+
+元素周期表使用不同颜色区分元素类别：
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[scale=0.6, every node/.style={font=\sffamily\small}]
+        % 第一周期
+        \node[nonmetal] at (0,0) {
+            \begin{minipage}{1.5cm}\centering
+                {\tiny 1}\\\textbf{\Large H}\\{\tiny Hydrogen}
+            \end{minipage}
+        };
+        \node[noble gas] at (10cm,0) {
+            \begin{minipage}{1.5cm}\centering
+                {\tiny 2}\\\textbf{\Large He}\\{\tiny Helium}
+            \end{minipage}
+        };
+        
+        % 第二周期部分元素
+        \node[alkali metal] at (0,-2cm) {
+            \begin{minipage}{1.5cm}\centering
+                {\tiny 3}\\\textbf{\Large Li}\\{\tiny Lithium}
+            \end{minipage}
+        };
+        \node[alkaline earth] at (2cm,-2cm) {
+            \begin{minipage}{1.5cm}\centering
+                {\tiny 4}\\\textbf{\Large Be}\\{\tiny Beryllium}
+            \end{minipage}
+        };
+        \node[nonmetal] at (6cm,-2cm) {
+            \begin{minipage}{1.5cm}\centering
+                {\tiny 6}\\\textbf{\Large C}\\{\tiny Carbon}
+            \end{minipage}
+        };
+        \node[halogen] at (8cm,-2cm) {
+            \begin{minipage}{1.5cm}\centering
+                {\tiny 9}\\\textbf{\Large F}\\{\tiny Fluorine}
+            \end{minipage}
+        };
+        \node[noble gas] at (10cm,-2cm) {
+            \begin{minipage}{1.5cm}\centering
+                {\tiny 10}\\\textbf{\Large Ne}\\{\tiny Neon}
+            \end{minipage}
+        };
+    \end{tikzpicture}
+    \caption{元素周期表片段 (使用 element 样式)}
+\end{figure}
+
+\begin{notice}{元素类别样式}
+    \begin{itemize}
+        \item \texttt{alkali metal} - 碱金属 (红色)
+        \item \texttt{alkaline earth} - 碱土金属 (橙色)
+        \item \texttt{nonmetal} - 非金属 (绿色)
+        \item \texttt{halogen} - 卤素 (黄色)
+        \item \texttt{noble gas} - 稀有气体 (青色)
+    \end{itemize}
+\end{notice}
+
+\subsection{分子结构}
+
+\subsubsection{水分子}
+
+\begin{molecule}[1.5cm]
+    \node[oxygen] (O) at (0,0) {O};
+    \node[hydrogen] (H1) at (-1.2cm,-0.8cm) {H};
+    \node[hydrogen] (H2) at (1.2cm,-0.8cm) {H};
+    
+    \draw[single bond] (O) -- (H1);
+    \draw[single bond] (O) -- (H2);
+    
+    \node[above=0.3cm of O] {$\mathrm{H_2O}$};
+\end{molecule}
+
+\subsubsection{甲烷分子}
+
+\begin{molecule}[1.2cm]
+    \node[carbon] (C) at (0,0) {C};
+    \node[hydrogen] (H1) at (0,1.2cm) {H};
+    \node[hydrogen] (H2) at (0,-1.2cm) {H};
+    \node[hydrogen] (H3) at (-1.2cm,0) {H};
+    \node[hydrogen] (H4) at (1.2cm,0) {H};
+    
+    \draw[single bond] (C) -- (H1);
+    \draw[single bond] (C) -- (H2);
+    \draw[single bond] (C) -- (H3);
+    \draw[single bond] (C) -- (H4);
+    
+    \node[below=1.5cm of C] {$\mathrm{CH_4}$ 甲烷};
+\end{molecule}
+
+\subsubsection{乙烯 (双键)}
+
+\begin{molecule}[2cm]
+    \node[carbon] (C1) at (0,0) {C};
+    \node[carbon] (C2) at (2cm,0) {C};
+    \node[hydrogen] (H1) at (-0.8cm,0.8cm) {H};
+    \node[hydrogen] (H2) at (-0.8cm,-0.8cm) {H};
+    \node[hydrogen] (H3) at (2.8cm,0.8cm) {H};
+    \node[hydrogen] (H4) at (2.8cm,-0.8cm) {H};
+    
+    \draw[double bond] (C1) -- (C2);
+    \draw[single bond] (C1) -- (H1);
+    \draw[single bond] (C1) -- (H2);
+    \draw[single bond] (C2) -- (H3);
+    \draw[single bond] (C2) -- (H4);
+    
+    \node[below=1.2cm of C1, xshift=1cm] {$\mathrm{C_2H_4}$ 乙烯};
+\end{molecule}
+
+\subsection{能级图}
+
+\begin{energydiagram}
+    % 能级线
+    \draw[ground state] (0,0) -- (2cm,0) node[energy label] {$n=1$ (基态)};
+    \draw[energy level] (0,1.5cm) -- (2cm,1.5cm) node[energy label] {$n=2$};
+    \draw[energy level] (0,2.5cm) -- (2cm,2.5cm) node[energy label] {$n=3$};
+    \draw[excited state] (0,3.2cm) -- (2cm,3.2cm) node[energy label] {$n=4$};
+    
+    % 跃迁箭头
+    \draw[transition arrow] (1cm,0.1cm) -- (1cm,1.4cm);
+    \node[right, font=\footnotesize] at (1.2cm,0.75cm) {吸收};
+    
+    \draw[transition arrow] (0.5cm,2.4cm) -- (0.5cm,0.1cm);
+    \node[left, font=\footnotesize] at (0.3cm,1.25cm) {发射};
+    
+    % 能量轴
+    \draw[->, thick] (-0.5cm,-0.3cm) -- (-0.5cm,3.5cm) node[above] {$E$};
+\end{energydiagram}
+
+\subsection{化学反应图}
+
+\begin{datastructure}[2cm]
+    \node[reactant] (r1) at (0,0) {$\mathrm{2H_2}$};
+    \node[reactant] (r2) at (2cm,0) {$\mathrm{O_2}$};
+    \node at (1cm,0) {$+$};
+    \node[product] (p1) at (6cm,0) {$\mathrm{2H_2O}$};
+    
+    \draw[reaction arrow] (3cm,0) -- (4.8cm,0) 
+        node[catalyst] {点燃}
+        node[condition] {高温};
+\end{datastructure}
+
+\begin{tip}{化学可视化使用建议}
+    \begin{enumerate}
+        \item 使用 \verb|periodictable| 环境绘制元素周期表
+        \item 使用 \verb|molecule| 环境绘制分子结构
+        \item 原子样式: \verb|carbon|, \verb|hydrogen|, \verb|oxygen|, \verb|nitrogen|
+        \item 键样式: \verb|single bond|, \verb|double bond|, \verb|triple bond|
+    \end{enumerate}
+\end{tip}
+
+\subsection{粒子物理标准模型}
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[scale=0.9, every node/.style={font=\sffamily}]
+        % 夸克
+        \node[quark] (u) at (0,3) {
+            \begin{minipage}{1.4cm}\centering
+                {\tiny 2.2 MeV}\\\textbf{u}\\{\tiny up}
+            \end{minipage}
+        };
+        \node[quark] (d) at (0,1.5) {
+            \begin{minipage}{1.4cm}\centering
+                {\tiny 4.7 MeV}\\\textbf{d}\\{\tiny down}
+            \end{minipage}
+        };
+        \node[quark] (c) at (1.8cm,3) {
+            \begin{minipage}{1.4cm}\centering
+                {\tiny 1.3 GeV}\\\textbf{c}\\{\tiny charm}
+            \end{minipage}
+        };
+        \node[quark] (s) at (1.8cm,1.5) {
+            \begin{minipage}{1.4cm}\centering
+                {\tiny 96 MeV}\\\textbf{s}\\{\tiny strange}
+            \end{minipage}
+        };
+        
+        % 轻子
+        \node[lepton] (e) at (0,0) {
+            \begin{minipage}{1.4cm}\centering
+                {\tiny 0.511 MeV}\\\textbf{e}\\{\tiny electron}
+            \end{minipage}
+        };
+        \node[lepton] (nu) at (1.8cm,0) {
+            \begin{minipage}{1.4cm}\centering
+                {\tiny $<$1 eV}\\$\boldsymbol{\nu_e}$\\{\tiny neutrino}
+            \end{minipage}
+        };
+        
+        % 玻色子
+        \node[gauge boson] (g) at (4.5cm,3) {
+            \begin{minipage}{1.4cm}\centering
+                {\tiny 0}\\\textbf{g}\\{\tiny gluon}
+            \end{minipage}
+        };
+        \node[gauge boson] (gamma) at (4.5cm,1.5) {
+            \begin{minipage}{1.4cm}\centering
+                {\tiny 0}\\$\boldsymbol{\gamma}$\\{\tiny photon}
+            \end{minipage}
+        };
+        \node[gauge boson] (W) at (4.5cm,0) {
+            \begin{minipage}{1.4cm}\centering
+                {\tiny 80.4 GeV}\\\textbf{W}\\{\tiny W boson}
+            \end{minipage}
+        };
+        \node[scalar boson] (H) at (6.3cm,1.5) {
+            \begin{minipage}{1.4cm}\centering
+                {\tiny 125 GeV}\\\textbf{H}\\{\tiny Higgs}
+            \end{minipage}
+        };
+        
+        % 标签
+        \node[above, font=\small\bfseries] at (0.9cm,3.8) {QUARKS};
+        \node[above, font=\small\bfseries] at (0.9cm,0.8) {LEPTONS};
+        \node[above, font=\small\bfseries] at (5.4cm,3.8) {BOSONS};
+    \end{tikzpicture}
+    \caption{粒子物理标准模型简化图}
+\end{figure}
+
+\subsection{几何分类图}
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[node distance=1.5cm, >=Stealth]
+        % 几何形状节点
+        \node[hasse node] (quad) at (0,4) {四边形};
+        
+        \node[hasse node] (trap) at (-3,2.5) {梯形};
+        \node[hasse node] (para) at (0,2.5) {平行四边形};
+        \node[hasse node] (kite) at (3,2.5) {风筝形};
+        
+        \node[hasse node] (rect) at (-1.5,1) {矩形};
+        \node[hasse node] (rhom) at (1.5,1) {菱形};
+        
+        \node[concrete node] (squa) at (0,-0.5) {正方形};
+        
+        % 连接线
+        \draw[hasse edge] (quad) -- (trap);
+        \draw[hasse edge] (quad) -- (para);
+        \draw[hasse edge] (quad) -- (kite);
+        \draw[hasse edge] (para) -- (rect);
+        \draw[hasse edge] (para) -- (rhom);
+        \draw[hasse edge] (kite) -- (rhom);
+        \draw[hasse edge] (rect) -- (squa);
+        \draw[hasse edge] (rhom) -- (squa);
+    \end{tikzpicture}
+    \caption{四边形分类 Hasse 图}
+\end{figure}
+
+% ═══════════════════════════════════════════════════════════════════════════
+\section{高级数学流程图}
+% ═══════════════════════════════════════════════════════════════════════════
+
+MindFlow 提供了专业的科学计算和研究工作流流程图样式。
+
+\begin{table}[H]
+    \centering
+    \caption{高级流程图样式分类}
+    \begin{tabular}{lll}
+        \toprule
+        \textbf{类别} & \textbf{主要样式} & \textbf{用途} \\
+        \midrule
+        分组框 & \texttt{basic box}, \texttt{loop box} & DMFT循环 \\
+        科学计算 & \texttt{sci input}, \texttt{sci step} & 数值方法 \\
+        迭代算法 & \texttt{iter init}, \texttt{iter converge} & Newton迭代 \\
+        研究工作流 & \texttt{phase box}, \texttt{milestone} & 项目管理 \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\subsection{迭代算法流程图 (Newton 法)}
+
+\begin{iterflow}[1.5cm]
+    \node[iter init] (init) {初始化 $x_0$, 设置 $\varepsilon$};
+    \node[iter step, below=of init] (compute) {计算 $f(x_n)$ 和 $f'(x_n)$};
+    \node[iter step, below=of compute] (update) {更新 $x_{n+1} = x_n - \dfrac{f(x_n)}{f'(x_n)}$};
+    \node[iter converge, below=of update] (check) {$|x_{n+1} - x_n| < \varepsilon$?};
+    \node[iter result, below=of check] (result) {输出根 $x^* = x_{n+1}$};
+    
+    % 箭头
+    \draw[sci arrow] (init) -- (compute);
+    \draw[sci arrow] (compute) -- (update);
+    \draw[sci arrow] (update) -- (check);
+    \draw[sci arrow] (check) -- node[right] {是} (result);
+    \draw[iter loop] (check.west) -- ++(-1.5cm,0) |- node[pos=0.25, left] {否} (compute.west);
+\end{iterflow}
+
+\subsection{科学计算流程}
+
+\begin{sciflow}[1.2cm]
+    % 输入
+    \node[sci input] (input) {读取初始条件};
+    
+    % 主计算循环
+    \node[sci step, below=of input] (mesh) {生成网格};
+    \node[sci step, below=of mesh] (assemble) {组装刚度矩阵};
+    \node[sci step, below=of assemble] (solve) {求解线性系统 $Ax = b$};
+    \node[sci decision, below=of solve] (converge) {收敛?};
+    
+    % 输出
+    \node[sci output, below=of converge] (output) {输出结果};
+    
+    % 连接
+    \draw[sci arrow] (input) -- (mesh);
+    \draw[sci arrow] (mesh) -- (assemble);
+    \draw[sci arrow] (assemble) -- (solve);
+    \draw[sci arrow] (solve) -- (converge);
+    \draw[sci arrow] (converge) -- node[right] {是} (output);
+    \draw[sci arrow] (converge.east) -- ++(1cm,0) |- node[pos=0.25, right] {否，细化} (mesh.east);
+\end{sciflow}
+
+\subsection{研究工作流}
+
+\begin{workflow}[0.03cm]
+    \node[phase box=flow@green] (plan) {问题定义};
+    \node[phase box=flow@blue, right=of plan] (model) {模型构建};
+    \node[phase box=flow@purple, right=of model] (compute) {数值求解};
+    \node[phase box=flow@orange, right=of compute] (analyze) {结果分析};
+    \node[phase box=flow@red, right=of analyze] (publish) {论文发表};
+    
+    \draw[phase arrow] (plan) -- (model);
+    \draw[phase arrow] (model) -- (compute);
+    \draw[phase arrow] (compute) -- (analyze);
+    \draw[phase arrow] (analyze) -- (publish);
+    
+    % 反馈
+    \draw[feedback loop] (analyze) to[bend left=40] node[above, font=\small] {修正} (model);
+\end{workflow}
+
+\begin{tip}{高级流程图使用建议}
+    \begin{enumerate}
+        \item 使用 \verb|iterflow| 环境绘制迭代算法
+        \item 使用 \verb|sciflow| 环境绘制科学计算流程
+        \item 使用 \verb|workflow| 环境绘制研究工作流
+        \item 样式可通过 \verb|basic box=颜色| 自定义
+    \end{enumerate}
+\end{tip}
+
+% ═══════════════════════════════════════════════════════════════════════════
+\section{3D 几何可视化}
+% ═══════════════════════════════════════════════════════════════════════════
+
+MindFlow 提供了 3D 多面体和几何图形的绘制样式，需要 \texttt{tikz-3dplot} 包支持。
+
+\begin{table}[H]
+    \centering
+    \caption{3D 几何样式分类}
+    \begin{tabular}{lll}
+        \toprule
+        \textbf{类别} & \textbf{主要样式} & \textbf{用途} \\
+        \midrule
+        多面体 & \texttt{poly face}, \texttt{poly edge} & 面/边绘制 \\
+        曲面 & \texttt{surface grid}, \texttt{skew edge} & 参数曲面 \\
+        坐标系 & \texttt{3d axis} & 3D坐标轴 \\
+        晶体 & \texttt{rhombic face}, \texttt{lattice point} & 晶体结构 \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\subsection{长方体 (隐藏边处理)}
+
+\begin{figure}[H]
+    \centering
+    \tdplotsetmaincoords{70}{110}
+    \begin{tikzpicture}[tdplot_main_coords, scale=1.2]
+        \pgfmathsetmacro{\a}{2.5}
+        \pgfmathsetmacro{\b}{2.0}
+        \pgfmathsetmacro{\c}{1.5}
+        
+        % 底面 (部分隐藏)
+        \draw[poly edge hidden] (0,0,0) -- (\a,0,0);
+        \draw[poly edge hidden] (0,0,0) -- (0,\b,0);
+        \draw[poly edge] (\a,0,0) -- (\a,\b,0) -- (0,\b,0);
+        
+        % 顶面
+        \draw[poly edge] (0,0,\c) -- (\a,0,\c) -- (\a,\b,\c) -- (0,\b,\c) -- cycle;
+        
+        % 垂直边
+        \draw[poly edge hidden] (0,0,0) -- (0,0,\c);
+        \draw[poly edge] (\a,0,0) -- (\a,0,\c);
+        \draw[poly edge] (\a,\b,0) -- (\a,\b,\c);
+        \draw[poly edge] (0,\b,0) -- (0,\b,\c);
+        
+        % 坐标轴
+        \draw[3d axis] (0,0,0) -- (3.5,0,0) node[right] {$x$};
+        \draw[3d axis] (0,0,0) -- (0,3,0) node[above] {$y$};
+        \draw[3d axis] (0,0,0) -- (0,0,2.5) node[above] {$z$};
+    \end{tikzpicture}
+    \caption{长方体与3D坐标系}
+\end{figure}
+
+\subsection{正四面体}
+
+\begin{figure}[H]
+    \centering
+    \tdplotsetmaincoords{70}{120}
+    \begin{tikzpicture}[tdplot_main_coords, scale=2]
+        % 顶点坐标
+        \coordinate (A) at (0,0,0);
+        \coordinate (B) at (1,0,0);
+        \coordinate (C) at (0.5,0.866,0);
+        \coordinate (D) at (0.5,0.289,0.816);
+        
+        % 底面
+        \draw[poly face] (A) -- (B) -- (C) -- cycle;
+        
+        % 侧面
+        \draw[poly face] (A) -- (B) -- (D) -- cycle;
+        \draw[poly face] (B) -- (C) -- (D) -- cycle;
+        \draw[poly face] (C) -- (A) -- (D) -- cycle;
+        
+        % 顶点标记
+        \node[poly vertex] at (A) {};
+        \node[poly vertex] at (B) {};
+        \node[poly vertex] at (C) {};
+        \node[poly vertex] at (D) {};
+        
+        % 标签
+        \node[vertex label, below left] at (A) {$A$};
+        \node[vertex label, below right] at (B) {$B$};
+        \node[vertex label, right] at (C) {$C$};
+        \node[vertex label, above] at (D) {$D$};
+    \end{tikzpicture}
+    \caption{正四面体 (使用 \texttt{poly face} 样式)}
+\end{figure}
+
+\begin{notice}{3D 几何环境}
+    \begin{itemize}
+        \item \verb|geometry3d[仰角]{方位角}| - 通用 3D 环境
+        \item \verb|polyhedron[仰角]{方位角}| - 多面体专用
+        \item 需要 \verb|\usepackage{tikz-3dplot}| (已在 cls 中加载)
+    \end{itemize}
+\end{notice}
+
+% ═══════════════════════════════════════════════════════════════════════════
+\section{神经网络可视化}
+% ═══════════════════════════════════════════════════════════════════════════
+
+MindFlow 提供了专业的神经网络架构可视化样式。
+
+\begin{table}[H]
+    \centering
+    \caption{神经网络样式分类}
+    \begin{tabular}{lll}
+        \toprule
+        \textbf{类别} & \textbf{主要样式} & \textbf{用途} \\
+        \midrule
+        神经元 & \texttt{input/hidden/output neuron} & 不同层节点 \\
+        连接 & \texttt{nn edge}, \texttt{skip connection} & 全连接/残差 \\
+        层 & \texttt{conv layer}, \texttt{pool layer} & CNN组件 \\
+        VAE & \texttt{mu block}, \texttt{sigma block} & 变分自编码器 \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\subsection{多层感知机 (MLP)}
+
+\begin{neuralnet}
+    % 输入层
+    \foreach \i in {1,2,3} {
+        \node[input neuron] (i-\i) at (0, 2-\i) {};
+    }
+    \node[layer label, above=0.3cm of i-1] {输入层};
+    
+    % 隐藏层1
+    \foreach \i in {1,2,3,4} {
+        \node[hidden neuron] (h1-\i) at (2.5, 2.5-\i) {};
+    }
+    \node[layer label, above=0.3cm of h1-1] {隐藏层};
+    
+    % 输出层
+    \foreach \i in {1,2} {
+        \node[output neuron] (o-\i) at (5, 1.5-\i) {};
+    }
+    \node[layer label, above=0.3cm of o-1] {输出层};
+    
+    % 全连接
+    \foreach \i in {1,2,3} {
+        \foreach \j in {1,2,3,4} {
+            \draw[nn edge] (i-\i) -- (h1-\j);
+        }
+    }
+    \foreach \i in {1,2,3,4} {
+        \foreach \j in {1,2} {
+            \draw[nn edge] (h1-\i) -- (o-\j);
+        }
+    }
+    
+    % 输入标签
+    \node[left=0.3cm of i-1] {$x_1$};
+    \node[left=0.3cm of i-2] {$x_2$};
+    \node[left=0.3cm of i-3] {$x_3$};
+    
+    % 输出标签
+    \node[right=0.3cm of o-1] {$\hat{y}_1$};
+    \node[right=0.3cm of o-2] {$\hat{y}_2$};
+\end{neuralnet}
+
+\subsection{变分自编码器 (VAE)}
+
+\begin{autoencoder}
+    % Encoder
+    \node[fc layer, minimum height=3cm] (enc1) at (0,0) {};
+    \node[fc layer, minimum height=2cm] (enc2) at (1.5,0) {};
+    
+    % Latent space
+    \node[mu block] (mu) at (4, 0.8) {$\mu$};
+    \node[sigma block] (sigma) at (4, -0.8) {$\sigma$};
+    \node[sample block] (z) at (6, 0) {$z$};
+    
+    % Decoder
+    \node[fc layer, minimum height=2cm] (dec1) at (8,0) {};
+    \node[fc layer, minimum height=3cm] (dec2) at (9.5,0) {};
+    
+    % 连接
+    \draw[nn edge, thick] (enc1) -- (enc2);
+    \draw[nn edge, thick] (enc2) -- (mu);
+    \draw[nn edge, thick] (enc2) -- (sigma);
+    \draw[nn edge, thick] (mu) -- (z);
+    \draw[nn edge, thick] (sigma) -- (z);
+    \draw[nn edge, thick] (z) -- (dec1);
+    \draw[nn edge, thick] (dec1) -- (dec2);
+    
+    % 标签
+    \node[layer label, below=0.5cm of enc1] {Encoder};
+    \node[layer label, below=0.5cm of z] {Latent};
+    \node[layer label, below=0.5cm of dec2] {Decoder};
+    
+    % 输入输出
+    \node[left=0.3cm of enc1] {$x$};
+    \node[right=0.3cm of dec2] {$\hat{x}$};
+\end{autoencoder}
+
+\begin{tip}{神经网络可视化使用建议}
+    \begin{enumerate}
+        \item 使用 \verb|neuralnet| 环境绘制 MLP
+        \item 使用 \verb|autoencoder| 环境绘制 VAE/AE
+        \item 使用 \verb|convnet| 环境绘制 CNN
+        \item 快捷命令: \verb|\drawlayer|, \verb|\connectlayers|
+    \end{enumerate}
+\end{tip}
+
+% ═══════════════════════════════════════════════════════════════════════════
+\section{概率树与卷积运算}
+% ═══════════════════════════════════════════════════════════════════════════
+
+MindFlow 提供了概率树图和卷积运算可视化样式。
+
+\subsection{概率树}
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[
+        grow=right,
+        level distance=2.5cm,
+        sibling distance=12mm,
+        edge from parent/.style={prob edge},
+        >=Stealth,
+        level 1/.style={sibling distance=25mm},
+        level 2/.style={sibling distance=12mm}
+    ]
+        \node[prob root] {}
+            child {
+                node[prob event] {$A$}
+                child {
+                    node[prob outcome] {$A \cap B$}
+                    edge from parent node[prob label, above] {0.6}
+                }
+                child {
+                    node[prob outcome] {$A \cap \bar{B}$}
+                    edge from parent node[prob label, below] {0.4}
+                }
+                edge from parent node[prob label highlight, above] {0.3}
+            }
+            child {
+                node[prob event highlight] {$\bar{A}$}
+                child {
+                    node[prob outcome] {$\bar{A} \cap B$}
+                    edge from parent node[prob label, above] {0.2}
+                }
+                child {
+                    node[prob outcome] {$\bar{A} \cap \bar{B}$}
+                    edge from parent node[prob label, below] {0.8}
+                }
+                edge from parent[prob edge highlight] node[prob label highlight, below] {0.7}
+            };
+    \end{tikzpicture}
+    \caption{条件概率树}
+\end{figure}
+
+\subsection{卷积运算}
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[node distance=0.5cm]
+        % 输入矩阵
+        \matrix (I) [input matrix] {
+            1 & 0 & |[conv input highlight]| 1 & |[conv input highlight]| 0 \\
+            0 & 1 & |[conv input highlight]| 1 & |[conv input highlight]| 1 \\
+            1 & 1 & 0 & 0 \\
+            0 & 1 & 0 & 1 \\
+        };
+        \node[below=0.3cm of I] {输入 $\mathbf{I}$};
+        
+        % 卷积符号
+        \node[conv operator, right=0.8cm of I] (star) {$*$};
+        
+        % 卷积核
+        \matrix (K) [kernel matrix, right=0.8cm of star] {
+            1 & 0 \\
+            0 & 1 \\
+        };
+        \node[below=0.3cm of K] {核 $\mathbf{K}$};
+        
+        % 等号
+        \node[conv operator, right=0.8cm of K] (eq) {$=$};
+        
+        % 输出矩阵
+        \matrix (O) [output matrix, right=0.8cm of eq] {
+            2 & |[conv output highlight]| 2 & 1 \\
+            2 & 1 & 1 \\
+            2 & 1 & 1 \\
+        };
+        \node[below=0.3cm of O] {输出 $\mathbf{I * K}$};
+        
+        % 映射线
+        \draw[conv map] (I-1-4.north east) -- (K-1-1.north west);
+        \draw[conv map] (I-2-4.south east) -- (K-2-1.south west);
+        \draw[output map] (K-1-2.north east) -- (O-1-2.north west);
+        \draw[output map] (K-2-2.south east) -- (O-1-2.south west);
+    \end{tikzpicture}
+    \caption{2D 卷积运算示意图}
+\end{figure}
+
+\begin{notice}{概率/卷积样式}
+    \begin{itemize}
+        \item \texttt{prob event}, \texttt{prob edge} - 概率树节点/边
+        \item \texttt{prob label}, \texttt{prob label highlight} - 概率标签
+        \item \texttt{input matrix}, \texttt{kernel matrix} - 卷积矩阵
+        \item \texttt{conv input highlight}, \texttt{conv output highlight} - 区域高亮
+    \end{itemize}
+\end{notice}
+
+% ═══════════════════════════════════════════════════════════════════════════
+\section{TQFT 协边图}
+% ═══════════════════════════════════════════════════════════════════════════
+
+MindFlow 支持拓扑量子场论 (TQFT) 的协边图绘制，使用 \texttt{tqft} TikZ 库。
+
+\subsection{基础协边}
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[
+        every tqft/.append style={
+            transform shape,
+            rotate=90,
+            tqft/circle x radius=7pt,
+            tqft/boundary separation=1cm,
+            tqft/view from=incoming
+        }
+    ]
+        % Pair of pants (乘法)
+        \pic[
+            tqft/pair of pants,
+            name=pants,
+            every incoming lower boundary component/.style={draw},
+            every outgoing lower boundary component/.style={draw},
+            cobordism edge/.style={draw},
+        ];
+        \node[below=0.5cm of pants-incoming boundary] {$\mu: V \otimes V \to V$};
+        \node[above=0.3cm of pants-outgoing boundary 1, xshift=-0.3cm] {\small Pair of Pants};
+    \end{tikzpicture}
+    \hspace{2cm}
+    \begin{tikzpicture}[
+        every tqft/.append style={
+            transform shape,
+            rotate=90,
+            tqft/circle x radius=7pt,
+            tqft/boundary separation=1cm,
+            tqft/view from=incoming
+        }
+    ]
+        % Cup (迹)
+        \pic[
+            tqft/cup,
+            name=cup,
+            cobordism edge/.style={draw},
+        ];
+        \node[below=0.5cm of cup-incoming boundary] {$\mathrm{tr}: V \to \mathbb{C}$};
+        \node[above=0.5cm of cup-incoming boundary] {\small Cup};
+    \end{tikzpicture}
+    \caption{TQFT 基本协边: Pair of Pants (乘法) 和 Cup (迹)}
+\end{figure}
+
+\subsection{柱面 (恒等态射)}
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[
+        every tqft/.append style={
+            transform shape,
+            rotate=90,
+            tqft/circle x radius=7pt,
+            tqft/boundary separation=1cm,
+            tqft/view from=incoming
+        }
+    ]
+        \pic[
+            tqft/cylinder,
+            name=cyl,
+            every incoming lower boundary component/.style={draw},
+            every outgoing lower boundary component/.style={draw},
+            cobordism edge/.style={draw},
+        ];
+        
+        \node[below=0.5cm of cyl-incoming boundary] {$\mathrm{id}: V \to V$};
+        
+        % 注释
+        \draw[space param] ($(cyl-incoming boundary.west) - (0.2,0)$) 
+            node[below] {$\sigma$} to[bend left=40] ++(0,0.5);
+    \end{tikzpicture}
+    \caption{柱面协边 (恒等态射)}
+\end{figure}
+
+\begin{notice}{TQFT 样式}
+    \begin{itemize}
+        \item \texttt{tqft/pair of pants} - 乘法协边
+        \item \texttt{tqft/cup}, \texttt{tqft/cap} - 迹/余迹
+        \item \texttt{tqft/cylinder} - 恒等态射
+        \item 环境: \texttt{cobordism}, \texttt{tqftdiagram}
+    \end{itemize}
+\end{notice}
+
+\subsection{晶格与拓扑等价}
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+        % 晶格网格
+        \draw[lattice grid] (-2,-2) grid (2,2);
+        
+        % 坐标轴
+        \draw[lattice axis] (-2.3,0) -- (2.3,0);
+        \draw[lattice axis] (0,-2.3) -- (0,2.3);
+        
+        % 基本域
+        \node[fundamental domain, label=below:$2\pi$, label=right:$2\pi$] at (0.5,0.5) {};
+    \end{tikzpicture}
+    \hspace{1.5cm}
+    \begin{tikzpicture}
+        % 方形 -> 环面
+        \draw[identification arrow] (0,0) -- (2,0);
+        \draw[identification arrow reversed] (0,2) -- (2,2);
+        \draw[identification arrow] (0,0) -- (0,2);
+        \draw[identification arrow reversed] (2,0) -- (2,2);
+        
+        \node at (1,-0.5) {$a$};
+        \node at (1,2.5) {$a$};
+        \node at (-0.5,1) {$b$};
+        \node at (2.5,1) {$b$};
+        
+        \node at (1,-1.2) {$\mathbb{T}^2 = \mathbb{R}^2/\mathbb{Z}^2$};
+    \end{tikzpicture}
+    \caption{晶格基本域与环面粘合}
+\end{figure}
+
+\begin{notice}{晶格/拓扑样式}
+    \begin{itemize}
+        \item \texttt{lattice grid}, \texttt{lattice axis} - 晶格网格/轴
+        \item \texttt{fundamental domain} - 基本域
+        \item \texttt{identification arrow} - 等价粘合箭头
+        \item 环境: \texttt{latticediag}, \texttt{surfaceconstruct}
+    \end{itemize}
+\end{notice}
+
+% ═══════════════════════════════════════════════════════════════════════════
+\section{电磁波与光学}
+% ═══════════════════════════════════════════════════════════════════════════
+
+MindFlow 提供电磁波和光学可视化样式，包括偏振光等。
+
+\subsection{线偏振波}
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[>=Stealth]
+        % 传播方向
+        \draw[propagation arrow] (0,0) -- (7,0) node[right] {$z$};
+        
+        % E场波形
+        \draw[wave curve, domain=0:6.5, variable=\x] 
+            plot (\x, {0.8*sin(deg(\x*1.5))});
+        
+        % E场向量
+        \foreach \x in {0.5, 1.5, 2.5, 3.5, 4.5, 5.5} {
+            \pgfmathsetmacro{\y}{0.8*sin(deg(\x*1.5))}
+            \draw[E field] (\x, 0) -- (\x, \y);
+        }
+        
+        % 标签
+        \node[em@efield] at (3.5, 1.2) {$\vec{E}$};
+        \node at (3.5, -0.8) {线偏振波};
+    \end{tikzpicture}
+    \caption{线偏振电磁波 (E 场)}
+\end{figure}
+
+\subsection{偏振片}
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[>=Stealth]
+        % 入射光
+        \draw[propagation arrow] (-3,0) -- (-0.5,0);
+        \node at (-1.75, 0.5) {非偏振光};
+        
+        % 偏振片
+        \draw[polarizer] (0,-1.2) rectangle (0.3,1.2);
+        \draw[polarization axis] (0.15,-1.5) -- (0.15,1.5);
+        \node at (0.15, -1.8) {偏振片};
+        
+        % 透射光
+        \draw[propagation arrow] (0.8,0) -- (3,0);
+        
+        % 偏振后的E场
+        \foreach \x in {1.2, 1.8, 2.4} {
+            \draw[E field] (\x, 0) -- (\x, 0.5);
+        }
+        \node at (2.1, 0.9) {线偏振光};
+    \end{tikzpicture}
+    \caption{偏振片作用示意图}
+\end{figure}
+
+\begin{notice}{电磁波样式}
+    \begin{itemize}
+        \item \texttt{E field}, \texttt{B field} - 电/磁场向量
+        \item \texttt{wave curve} - 波形曲线
+        \item \texttt{polarizer}, \texttt{wave plate} - 光学元件
+        \item 环境: \texttt{emwave}, \texttt{optics}
+    \end{itemize}
+\end{notice}
+
+% ═══════════════════════════════════════════════════════════════════════════
+\section{水印与批注系统}
+% ═══════════════════════════════════════════════════════════════════════════
+
+\subsection{水印功能}
+
+\begin{notice}{水印命令}
+    \begin{itemize}
+        \item \verb|\mfWatermarkText{DRAFT}| - 默认灰色文字水印
+        \item \verb|\mfWatermarkText[red!15]{绝密}| - 自定义颜色
+        \item \verb|\mfWatermarkText[blue!10][6]{内部}| - 颜色 + 缩放
+        \item \verb|\mfWatermarkImage{figure/logo.png}| - 图片水印
+    \end{itemize}
+    水印默认不显示，调用上述命令后才启用。
+\end{notice}
+
+\subsection{批注命令}
+
+配合 \texttt{review} 选项使用效果更佳：
+
+\todo{待完成：增加更多示例}
+
+\fixme{需要修正：公式编号格式}
+
+\notebox{备注：此功能在 v2.0 版本新增}
+
+% ═══════════════════════════════════════════════════════════════════════════
+\section{列表环境}
+% ═══════════════════════════════════════════════════════════════════════════
+
+\subsection{无序列表}
+
+\begin{itemize}
+    \item 第一级项目
+    \begin{itemize}
+        \item 第二级项目
+        \begin{itemize}
+            \item 第三级项目
+        \end{itemize}
+    \end{itemize}
+    \item 另一个一级项目
+\end{itemize}
+
+\subsection{有序列表}
+
+\begin{enumerate}
+    \item 初始化模型参数 $\param$
+    \item 前向传播计算预测值
+    \item 计算损失函数 $\loss(\param)$
+    \item 反向传播计算梯度 $\nabla_{\param} \loss$
+    \item 更新参数：$\param \leftarrow \param - \eta \nabla_{\param} \loss$
+\end{enumerate}
+
+\subsection{方框编号列表}
+
+\begin{enumsquared}
+    \item 三种文档模式适应不同场景
+    \item 十种 Section 样式自由切换
+    \item 完整的数学定理环境
+    \item 深度学习专用符号宏
+    \item 美观的提示框与代码块
+    \item 高级图文混排环境
+\end{enumsquared}
+
+% ═══════════════════════════════════════════════════════════════════════════
+\section{数学公式}
+% ═══════════════════════════════════════════════════════════════════════════
+
+\subsection{行内与行间公式}
+
+梯度下降更新规则：$\param_{t+1} = \param_t - \eta \nabla \loss(\param_t)$。
+
+反向传播的链式法则：
+\begin{equation}
+    \pdv{\loss}{\weight^{(l)}} = \pdv{\loss}{\vect{a}^{(l)}} \cdot \pdv{\vect{a}^{(l)}}{\vect{z}^{(l)}} \cdot \pdv{\vect{z}^{(l)}}{\weight^{(l)}}
+\end{equation}
+
+\subsection{多行公式}
+
+Adam 优化器的更新规则：
+\begin{align}
+    \vect{m}_t &= \beta_1 \vect{m}_{t-1} + (1 - \beta_1) \nabla \loss(\param_t) \\
+    \vect{v}_t &= \beta_2 \vect{v}_{t-1} + (1 - \beta_2) (\nabla \loss(\param_t))^2 \\
+    \hat{\vect{m}}_t &= \frac{\vect{m}_t}{1 - \beta_1^t}, \quad 
+    \hat{\vect{v}}_t = \frac{\vect{v}_t}{1 - \beta_2^t} \\
+    \param_{t+1} &= \param_t - \frac{\eta}{\sqrt{\hat{\vect{v}}_t} + \epsilon} \hat{\vect{m}}_t
+\end{align}
+
+% ═══════════════════════════════════════════════════════════════════════════
+\section{总结}
+% ═══════════════════════════════════════════════════════════════════════════
+
+\begin{summarybox}[MindFlow 功能总览]
+    \texttt{mindflow.cls} 提供了以下核心功能：
+    \begin{enumsquared}
+        \item \textbf{三种文档模式}: note / book / report
+        \item \textbf{十种 Section 样式}: 基础 4 种 + 极客 6 种
+        \item \textbf{定理环境}: 原版 + 美化版 tcolorbox
+        \item \textbf{提示框}: notice / tip / warning / conclusion
+        \item \textbf{图文混排}: textfigure / parallelfigures / figurerow / figuregrid
+        \item \textbf{代码环境}: codeblock 语法高亮
+        \item \textbf{数学宏库}: PDE + 泛函分析 + 深度学习
+        \item \textbf{辅助功能}: 水印 / 批注 / 科学绘图
+    \end{enumsquared}
+\end{summarybox}
+
+\end{document}
